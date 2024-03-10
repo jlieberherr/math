@@ -1,0 +1,151 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[ngerman]{babel}
+\usepackage{mdframed}
+
+\title{Notwendige und hinreichende Bedingungen dafür, dass bei geteilten Ressourcen die Kapazität den Bedarf  abdeckt}
+\author{Johannes Lieberherr}
+\date{\today}
+
+\global\mdfdefinestyle{resultdefault}{%
+	linecolor=blue,linewidth=1pt,%
+	leftmargin=0.0cm,rightmargin=0.0cm
+}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Satz}
+\newtheorem{lemma}{Lemma}
+\newtheorem{example}{Beispiel}
+
+\newcommand{\powerset}{\ensuremath{\mathcal{P}}}
+
+
+
+\begin{document}
+	\maketitle
+	\section{Problemstellung}
+	Sei $n\in \mathbb{N}$ und $N := \{1, 2, 3, ..., n\}$.
+	\begin{itemize}
+		\item \textbf{Bedarf} $(b_i)_{i\in N}$: Für jedes $i \in N$ ist der Bedarf als eine natürliche Zahl $b_i$ gegeben.
+		\item \textbf{Kapazität} $(k_I)_{I\subseteq N, I\neq \emptyset}$: Für jede Teilmenge $I\subseteq N$, $I\neq \emptyset$ ist die Kapazität als eine nicht-negative ganze Zahl $k_I$ gegeben.
+	\end{itemize}
+	
+	\begin{example}
+		Jeder Unterricht in einer Schule benötigt einen Raum von einem gewissen Raumtyp $i\in N$. Ein Raum ist einem oder mehreren Raumtypen zugeordnet. Es werden $b_i$ Räume vom Raumtyp $i\in N$ benötigt und es stehen $k_I$ Räume, welche genau den Raumtypen $i\in I$ zugeordnet sind, zur Verfügung.
+	\end{example}
+	 
+	
+	\begin{definition}[Abdeckung des Bedarfs]
+		Der Bedarf $(b_i)_{i\in N}$ kann durch die Kapazität $(k_I)_{I\subset N, I\neq \emptyset}$ abgedeckt werden, falls es eine Familie $(x_I^i)_{I\subseteq  N, I\neq \emptyset, i\in I}$ von nicht-negativen ganzen Zahlen  gibt, sodass
+		\begin{itemize}
+			\item die Gleichungen $b_i = \sum_{I\subseteq N, I\neq \emptyset, i\in I}x_I^i$ für alle $i\in N$ und
+			\item die Ungleichungen $\sum_{i\in I} x_I^i \leq k_I$ für alle nicht-leeren Teilmengen $I\subseteq N$
+		\end{itemize}
+		erfüllt sind.
+	\end{definition}
+	
+	
+	\section{Notwendige und hinreichende Bedingungen}
+		
+	Damit der Bedarf $(b_i)_{i\in N}$ durch die Kapazität $(k_I)_{I\subset N, I\neq \emptyset}$ abgedeckt werden kann, muss für alle nichtleeren $I\subseteq N$ eine Ungleichung erfüllt sein, nämlich:
+	\begin{equation}
+			\sum_{i \in I}b_i \leq \sum_{J\subseteq N, J\cap I \neq \emptyset}k_J
+			\label{eq:condition}
+	\end{equation}
+
+	
+	Weniger klar ist, dass diese Bedingungen auch hinreichend sind:
+
+	\begin{theorem}
+		Wenn für alle nichtleeren Teilmengen $I\subseteq N$ Ungleichung~\ref{eq:condition} erfüllt ist, so wird der Bedarf durch die Kapazität abgedeckt.
+	\end{theorem}
+	
+	\begin{proof} 
+		(Idee von Jan Draisma).
+		Wir konstruieren folgendes Netzwerk:
+		\begin{itemize}
+			\item Links die Quelle $s$.
+			\item In der ersten Schicht einen Knoten $i$ und eine Kante $(s, i)$ mit Kapazität $b_i$ für jedes $i\in N$.
+			\item In der zweiten Schicht einen Knoten $I$ für jede nichtleere Teilmenge $I\subseteq N$ und für jedes nichtleere $I\subseteq N$ und jedes $i\in I$ eine Kante $(i, I)$ mit unendlicher Kapazität.
+			\item Rechts die Senke $t$ und eine Kante $(I, t)$ mit Kapazität $k_I$ für jede nichtleere Teilmenge $I\subseteq N$.
+		\end{itemize}
+		Zunächst stellen wir fest, dass der Bedarf genau dann abgedeckt wird, wenn der Wert des maximalen Fluss des Netzwerkes gleich der Summe $b_1+b_2+...+b_n$ ist. 
+		
+		 Wir nehmen an, dass der Bedarf nicht abgedeckt wird und demnach der Wert eines maximalen Flusses kleiner als $b_1+b_2+...+b_n$ ist. Nach dem Max-Flow-Min-Cut-Theorem gibt es dann einen Schnitt $(S, T)$ mit Kapazität kleiner als $b_1+b_2+...+b_n$. Sei $I:=S\cap N$. Aus $I=\emptyset$ würde folgen, dass die Kapazität des Schnitts $\geq b_1+b_2+...+b_n$ ist. Wir können also $I\neq \emptyset$ voraussetzen. Da die Kanten vom ersten zum zweiten Layer unendliche Kapazität haben, muss für alle $J\subseteq N$ mit $J\cap I\neq \emptyset$ auch $J\in S$ sein. Die Kapazität des Schnittes ist also gleich $\sum_{i\in N\setminus I}b_i+\sum_{J\subseteq N, J\cap I\neq \emptyset}k_J$. Es folgt die Ungleichung
+		$\sum_{i\in N\setminus I}b_i+\sum_{J\subseteq N, J\cap I\neq \emptyset}k_J < b_1+b_2+...+b_n$ und nach Abzug von $\sum_{i\in N\setminus I}b_i$ auf beiden Seiten $\sum_{J\subseteq N, J\cap I\neq \emptyset}k_J < \sum_{i\in I}b_i$. Die Ungleichung~\ref{eq:condition} ist für $I$ also nicht erfüllt.
+		
+		Dass es einen maximalen Fluss mit ganzzahligen Werten auf jeder Kante gibt, folgt aus dem Algorithmus von Ford und Fulkerson.
+	\end{proof}
+
+		
+	\begin{example}
+		$N=\{1, 2, 3\}$.
+		
+		Bedarf $(b_i)_{i\in N}$: $b_1 = 20$, $b_2 = 14$, $b_3 = 10$.
+		
+		Kapazitäten $(k_I)_{I\subseteq N, I\neq \emptyset}$:
+		\begin{center}
+			\begin{tikzpicture}
+			% Draw circles
+			\draw (-1,1) circle (2);
+			\draw (1,1) circle (2);
+			\draw (0,-1) circle (2);
+
+			% Labels
+			\node at (-1.75,1.25) {$k_{\{1\}}=8$};
+			\node at (0,1.5) {$k_{\{1,2\}}=7$};
+			\node at (1.75,1.25) {$k_{\{2\}}=9$};
+			\node at (0,0.35) {$k_{\{1,2,3\}}=4$};
+			\node at (-1.1,-0.7) {$k_{\{1,3\}}=6$};
+			\node at (1.1,-0.7) {$k_{\{2,3\}}=0$};
+			\node at (0,-1.5) {$k_{\{3\}}=5$};
+			\end{tikzpicture}
+		\end{center}
+		
+		
+		Totalsumme der Kapazitäten: $\sum_{I\subseteq N, I \neq \emptyset}k_I = 39$.
+
+		Test der Ungleichungen:
+		\begin{center}
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				$I$ & $\sum_{i \in I}b_i$ & $\sum_{J\subseteq N, J\cap I \neq \emptyset}k_J$ & Erfüllt? \\ \hline
+				$\{1\}$ & $20$ & $8+7+6+4=25$ & ok \\ \hline
+				$\{2\}$ & $14$ & $9+7+0+4=20$ & ok \\ \hline
+				$\{3\}$ & $15$ & $5+6+0+4=15$ & ok \\ \hline
+				$\{1,2\}$ & $20+14=34$ & $39-5=34$ & ok \\ \hline
+				$\{1,3\}$ & $20+10=30$ & $39-9=30$ & ok \\ \hline
+				$\{2,3\}$ & $14+10=24$ & $39-8=31$ & ok \\ \hline
+				$\{1,2,3\}$ & $20+14+10=44$ & $39$ & nok \\ \hline
+			\end{tabular}
+		\end{center}
+	\end{example}
+
+	\section{Vorgehen in der Praxis}
+	In der Praxis ist $k_I = 0$ für die meisten nichtleeren $I\subseteq N$. Um zu prüfen, ob die Kapazität den Bedarf abdeckt, müssen deshalb deutlich weniger als $\left|\powerset(N)\right| - 1 =  2^n - 1$ der Ungleichungen~\ref{eq:condition} geprüft werden. Dabei kann folgende Tatsache verwendet werden:
+	\begin{lemma}
+		Sei $I\subseteq N$ nichtleer und $I = I_1 \cup I_2$ eine Partition von $I$ (d.h. $\emptyset\neq I_1\subseteq N$, $\emptyset\neq I_2\subseteq N$, $I_1 \cap I_2 = \emptyset$).
+		Wenn $k_J=0$ für alle nichtleeren $J\subseteq N$ mit $I_1 \cap J\neq \emptyset$ und $I_2 \cap J\neq \emptyset$, dann folgt die Ungleichung~\ref{eq:condition} für $I$ aus den beiden Ungleichungen~\ref{eq:condition} für $I_1$ und $I_2$.
+	\end{lemma}
+	\begin{proof}
+		Die Summanden, welche sowohl auf der rechten Seite der Ungleichung~\ref{eq:condition} für $I_1$ als auch für $I_2$ vorkommen, sind genau diejenigen $k_J$, für welche $J\cap I_1\neq \emptyset$ und $J\cap I_2\neq \emptyset$ gilt. Da für diese nach Voraussetzung $k_J=0$ ist, folgt die Ungleichung~\ref{eq:condition} für $I$ deshalb aus der Summe der Ungleichung~\ref{eq:condition} für $I_1$ und $I_2$.
+	\end{proof}
+
+	Beim algorithmischen Erzeugen der Teilmengen von $N$ wird in einem Schritt zur aktuellen Teilmenge $I$ jeweils ein neues Element $j$ hinzugefügt. Falls $k_J = 0$ für alle nichtleeren $J\subseteq N$ mit $I\cap J\neq \emptyset$ und $\{1\}\cap J\neq \emptyset$  gilt, so kann dieser und alle darauf aufbauenden Schritte wegen des obigen Lemmas übersprungen werden.
+	
+	Damit kann die Anzahl der zu berücksichtigenden Ungleichungen massiv reduziert werden.
+
+	\begin{example}
+		Wenn ein Element $j$ mit keinem anderen Element in $N$ eine gemeinsame Kapazität zur Verfügung stellt (d.h. $k_J=0$ für alle $J\subseteq N$ mit $j\in J$ und $\left|J\right| > 1$ gilt), so ist dafür nur die Ungleichung~\ref{eq:condition} für $\{j\}$ relevant. Diese ist in diesem Falle besonders einfach: $b_j \leq k_{\{j\}}$.
+	\end{example}
+	
+	\begin{example}
+		Sei $N:=\{1, 2, 3\}$ und $k_{\{2, 3\}}=k_{\{1, 2, 3\}}=0$. Dann sind nur die Ungleichungen~\ref{eq:condition} für die Teilmengen ${\{1\}}$, ${\{2\}}$, ${\{3\}}$, ${\{1, 2\}}$, ${\{1, 3\}}$ und ${\{1, 2, 3\}}$, nicht jedoch für ${\{2, 3\}}$ relevant.
+	\end{example}
+	
+\end{document}
