@@ -1,0 +1,67 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mdframed}
+
+
+\newtheorem{definition}{Definition}
+\newtheorem{propostition}{Propostition}
+
+\title{Number of points and lines in the projective plane over a finite field}
+\author{Johannes Lieberherr}
+\date{\today}
+
+
+\begin{document}
+	\maketitle
+	\section{Projective space}
+	Let $k$ be a field and $V$ a vector space over $k$.
+	
+	\begin{definition}[Projective space]
+		On $(V\times k)\setminus \{0\}$ we define the following equivalence relation ($v, w \in V\times k$):
+		$$v\sim w :\iff \exists \lambda \in k^*, w = \lambda \cdot v$$
+		
+		The set of equivalence classes
+		$$\operatorname{P}(V):=((V\times k)\setminus \{0\})\sim$$
+		is called the projective space over $V$.
+	\end{definition}
+
+	Two points $[v],[w]\in\operatorname{P}(V)$ are identical if and only if $v, w\in (V\times k)\setminus \{0\}$ lie on the same line throug the origin in $V\times k$. Hence the projective space is the set of lines through the origin in $V\times k$.
+	
+	\begin{definition}[Line in projective space]
+		The line $g([v],[w])$ through two points  $[v],[w]\in\operatorname{P}(V)$ is defined as the set of points
+		$$g([v],[w]):=\{[v+t\cdot (w-v) ] \mid t\in k\} \cup \{[w-v]\}$$	
+	\end{definition}
+	We have to show, that this definition is well-definied, i.e. that $g([v],[w])=g([v'],[w'])$ holds if $[v]=[v']$ and $[w]=[w']$.
+	\begin{proof}
+		Let $\lambda, \mu \in k^*$ such that $v'=\lambda v$ and $w'=\mu w$.
+		
+		If $\lambda=\mu$ we have directly $[v'+t(w'-v')]=[\lambda (v+t(w-v))]=[v+t(w-v)]$ and $[w'-v']=[\lambda(w-v)]=[w-v]$.
+		
+		If $\lambda \neq \mu$ the matter is a bit technical. We only show "$\subseteq$", the other direction is similar: let $[z]=[v+t(w-v)]\in g([v], [w])$. With $a:=\frac{\lambda \mu}{\mu-\mu t+\lambda t}$ and $t':=\frac{\lambda t}{\mu-\mu t + \lambda t}$ we find for $\mu-\mu t + \lambda t\neq 0$ with a short calculation $a z = v'+t'(w'-v')$ and hence $[z]\in g([v'], [w'])$. If $\mu-\mu t + \lambda = 0$ we have $[z]=[v+\frac{\mu}{\mu-\lambda}(w-v)]=[\frac{1}{\mu - \lambda}(\mu w - \lambda v)]=[w'-v']\in g([v'], [w'])$
+	\end{proof}
+	TODO: homgenous coordinates
+	\section{Projective plain over a finite field}
+	\begin{definition}[Projective plain]
+		$\operatorname{P}(k^2)$ is called the projective plane over $k$.
+	\end{definition}
+	In the following let $k=\mathbb{F}_q$ be a finite field with $q$ elements.
+	
+	\begin{propostition}
+		$$\operatorname{P}(\mathbb{F}_q^2)=\{(x:y:1)\mid x, y \in \mathbb{F}_q\}\cup \{(x:1:0)\mid x \in \mathbb{F}_q\}\cup \{(1:0:0)\}$$
+	
+		The set of lines in $\operatorname{P}(\mathbb{F}_q^2)$ consists of three types of lines:
+		\begin{itemize}
+			\item for every $y,m\in \mathbb{F}_q$: $$g_{y,m}:=g((0:y:1), (1:y+m:1))=\{(0:y:1)+ t(1:m:1)\mid t\in \mathbb{F}_q\}\cup \{(1:m:0)\}$$
+			\item for every $x\in \mathbb{F}_q$: $$g_{x,\infty}:=g((x:0:1),(x:1:1))=\{(x:t:1)\mid t\in \mathbb{F}_q\}\cup \{(0:1:0)\}$$
+			\item $g_{\infty, \infty}:=g((1:0:0),(0:1:0))=\{(t:1:0)\mid t\in \mathbb{F}_q\}\cup \{(1:0:0)\}$
+		\end{itemize}
+		Hence the number of points as well as the number of lines in $\operatorname{P}(\mathbb{F}_q^2)$ is $q^2 +q+1$.
+	\end{propostition}
+	\begin{proof}
+		TODO
+	\end{proof}
+	
+\end{document}
