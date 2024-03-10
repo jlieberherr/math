@@ -1,0 +1,92 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{amssymb}
+\usepackage[ngerman]{babel}
+\usepackage{mdframed}
+
+\title{Schwerpunkt beim Kegelstumpf}
+\author{Johannes Lieberherr}
+\date{\today}
+
+\global\mdfdefinestyle{resultdefault}{%
+	linecolor=blue,linewidth=1pt,%
+	leftmargin=0.0cm,rightmargin=0.0cm
+}
+
+\begin{document}
+\maketitle
+\begin{tikzpicture}
+	\draw[->,thick] (-1,0) -- (10,0) node[right] {$x$};
+	\draw[->,thick] (0,-3.5) -- (0,3.5) node[above] {$y$};
+	\draw[dashed,color=gray] (0,-3) arc (-90:90:0.8 and 3);% right half of the left ellipse
+	\draw[semithick] (0,-3) -- (7,-1.5);% bottom line
+	\draw[semithick] (0,3) -- (7,1.5);% top line
+	\draw[semithick] (0,-3) arc (270:90:0.8 and 3);% left half of the left ellipse
+	\draw[semithick] (7,-1.5) arc (-90:270:0.5 and 1.5);% right ellipse
+
+	\draw (-0.2,1.5) node {$r_0$};
+	\draw[<->,semithick] (0,0) -- (0,3);
+	
+	\draw (6.85,0.75) node {$r_1$};
+	\draw[<->,semithick] (7,0) -- (7,1.5);
+	
+	\draw (3.5,-0.35) node {$h$};
+	\draw[<->,semithick] (0,-0.1) -- (7,-0.1);
+	
+	\draw (2,0.2) node {$\tilde{x}$};
+	\draw[-,semithick] (2,0.05) -- (2,-0.05);
+	
+	\draw (3.5,2.45) node {$f$};
+\end{tikzpicture}
+ 
+$f(x)=mx+r_0$ mit $m=\frac{r_1-r_0}{h}$
+
+$$M_1(\tilde{x}):=\int_{0}^{\tilde{x}}{\pi f^2(x)(\tilde{x}-x)}\mathrm{d}x = \pi\int_{0}^{\tilde{x}}{ f^2(x)(\tilde{x}-x)}\mathrm{d}x$$
+$$M_2(\tilde{x}):=\int_{\tilde{x}}^{h}{\pi f^2(x)(x-\tilde{x})}\mathrm{d}x = \pi\int_{\tilde{x}}^{h}{ f^2(x)(x-\tilde{x})}\mathrm{d}x$$
+
+
+Die Stelle $\tilde{x}$ ist Gleichgewichtsstelle, wenn  $M_1(\tilde{x}) = M_2(\tilde{x})$ gilt.
+
+Wegen 
+$$M_1(\tilde{x})= \pi\int_{0}^{\tilde{x}}{ f^2(x)(\tilde{x}-x)}\mathrm{d}x =\pi\int_{0}^{\tilde{x}}{ f^2(x)\tilde{x}}\mathrm{d}x - \pi\int_{0}^{\tilde{x}}{ f^2(x)x}\mathrm{d}x = \pi\tilde{x}\int_{0}^{\tilde{x}}{ f^2(x)}\mathrm{d}x - \pi\int_{0}^{\tilde{x}}{xf^2(x)}\mathrm{d}x$$ und
+$$M_2(\tilde{x})= \pi\int_{\tilde{x}}^{h}{ f^2(x)(x-\tilde{x})}\mathrm{d}x = \pi\int_{\tilde{x}}^{h}{ f^2(x)x}\mathrm{d}x - \pi\int_{\tilde{x}}^{h}{ f^2(x)\tilde{x}}\mathrm{d}x = \pi\int_{\tilde{x}}^{h}{xf^2(x)}\mathrm{d}x - \pi\tilde{x}\int_{\tilde{x}}^{h}{f^2(x)}\mathrm{d}x$$
+folgt aus $M_1(\tilde{x}) = M_2(\tilde{x})$
+$$\pi\tilde{x}\int_{0}^{\tilde{x}}{ f^2(x)}\mathrm{d}x - \pi\int_{0}^{\tilde{x}}{xf^2(x)}\mathrm{d} = \pi\int_{\tilde{x}}^{h}{xf^2(x)}\mathrm{d}x - \pi\tilde{x}\int_{\tilde{x}}^{h}{f^2(x)}\mathrm{d}x,$$
+also 
+$$\pi\tilde{x}\int_{0}^{\tilde{x}}{ f^2(x)}\mathrm{d}x + \pi\tilde{x}\int_{\tilde{x}}^{h}{f^2(x)}\mathrm{d}x = \pi\int_{\tilde{x}}^{h}{xf^2(x)}\mathrm{d}x + \pi\int_{0}^{\tilde{x}}{xf^2(x)}\mathrm{d}x,$$
+und damit
+$$\pi\tilde{x}\int_{0}^{h}{ f^2(x)}\mathrm{d}x = \pi\int_{0}^{h}{xf^2(x)}\mathrm{d}x,$$
+woraus schlussendlich
+$$\tilde{x} = \frac{\int_{0}^{h}{xf^2(x)}\mathrm{d}x}{\int_{0}^{h}{ f^2(x)}\mathrm{d}x}$$ 
+folgt.
+
+$F(x) := \frac{m^2x^3}{3}+mr_0x^2+r_0^2x$ ist eine Stammfunktion von $f^2(x)$.
+
+$G(x) := \frac{m^2x^4}{4}+\frac{2mr_0x^3}{3}+\frac{r_0^2x^2}{2}$ ist eine Stammfunktion von $xf^2(x)$.
+
+Wegen $F(0) = 0$ und $G(0) = 0$ folgt 
+$$\tilde{x} = \frac{G(h)}{F(h)} = \frac{\frac{m^2h^4}{4}+\frac{2mr_0h^3}{3}+\frac{r_0^2h^2}{2}}{\frac{m^2h^3}{3}+mr_0h^2+r_0^2h}=\frac{\frac{m^2h^3}{4}+\frac{2mr_0h^2}{3}+\frac{r_0^2h}{2}}{\frac{m^2h^2}{3}+mr_0h+r_0^2}.$$
+Mit Hilfe von $mh=\frac{r_1-r_0}{h}h = r_1-r_0$ vereinfacht sich dies zu 
+$$\tilde{x} = \frac{G(h)}{F(h)} = \frac{\frac{(r_1-r_0)^2h}{4}+\frac{2(r_1-r_0)r_0h}{3}+\frac{r_0^2h}{2}}{\frac{(r_1-r_0)^2}{3}+(r_1-r_0)r_0+r_0^2} = h\cdot\frac{\frac{(r_1-r_0)^2}{4}+\frac{2(r_1-r_0)r_0}{3}+\frac{r_0^2}{2}}{\frac{(r_1-r_0)^2}{3}+(r_1-r_0)r_0+r_0^2}$$
+Nach Ausmultiplizieren und Zusammenfassen folgt
+$$\tilde{x} = h\cdot \frac{\frac{3r_1^2+2r_0r_1+r_0^2}{12}}{\frac{r_1^2 + r_0r_1+r_0^2}{3}} = \frac{h}{4}\cdot \frac{3r_1^2+2r_0r_1+r_0^2}{r_1^2 + r_0r_1+r_0^2}.$$
+\begin{mdframed}[style=resultdefault]
+	Für die Gleichgewichtsstelle ergibt sich in Abhängigkeit der Variablen $h$, $r_0$ und $r_1$ die Formel\\
+	$$\tilde{x}(h, r_0, r_1) = \frac{h}{4}\cdot \frac{3r_1^2+2r_0r_1+r_0^2}{r_1^2 + r_0r_1+r_0^2}$$
+\end{mdframed}
+
+
+Plausibilisierungen:
+\begin{itemize}
+	\item Für $r_0 = r_1$ handelt es sich um einen Zylinder. Die Anschauung verlangt, dass $\tilde{x}(h, r_0, r_0) = \frac{h}{2}$ gilt. Einsetzen in die obige Formel und Zusammenfassen bestätigt diese Erwartung.
+	\item Aus Symmetriegründen muss $\tilde{x}(h, r_1, r_0) = h - \tilde{x}(h, r_0, r_1)$ gelten. Auch dies bestätigt man durch  Nachrechnen.
+	\item Für $r_1=0$ liegt ein Kegel vor. Einsetzen und Vereinfachen liefert $\tilde{x}(h, r_0, 0) = \frac{h}{4}$, die (eher) bekannte Formel für den Schwerpunkt eines Kegels.
+\end{itemize}
+
+
+
+
+
+
+\end{document}
