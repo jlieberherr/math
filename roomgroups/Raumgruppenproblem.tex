@@ -41,6 +41,7 @@
 	 
 	
 	\begin{definition}[Abdeckung des Bedarfs]
+		\label{def:abdeckung_bedarf}
 		Der Bedarf $(b_i)_{i\in N}$ kann durch die Kapazität $(k_I)_{I\subset N, I\neq \emptyset}$ abgedeckt werden, falls es eine Familie $(x_I^i)_{I\subseteq  N, I\neq \emptyset, i\in I}$ von nicht-negativen ganzen Zahlen  gibt, sodass
 		\begin{itemize}
 			\item die Gleichungen $b_i = \sum_{I\subseteq N, I\neq \emptyset, i\in I}x_I^i$ für alle $i\in N$ und
@@ -126,9 +127,10 @@
 		\end{center}
 	\end{example}
 
-	\section{Vorgehen in der Praxis}
-	In der Praxis ist $k_I = 0$ für die meisten nichtleeren $I\subseteq N$. Um zu prüfen, ob die Kapazität den Bedarf abdeckt, müssen deshalb deutlich weniger als $\left|\powerset(N)\right| - 1 =  2^n - 1$ der Ungleichungen~\ref{eq:condition} geprüft werden. Dabei kann folgende Tatsache verwendet werden:
+	\section{Ideen zum Vorgehen in der Praxis}
+	In der Praxis ist $k_I = 0$ für gewisse  $I\subseteq N$. Um zu prüfen, ob die Kapazität den Bedarf abdeckt, müssen deshalb nicht immer alle $\left|\powerset(N)\right| - 1 =  2^n - 1$ der Ungleichungen~\ref{eq:condition} geprüft werden. Dabei kann folgende Tatsache verwendet werden:
 	\begin{lemma}
+		\label{def:lemma_partitionen}
 		Sei $I\subseteq N$ nichtleer und $I = I_1 \cup I_2$ eine Partition von $I$ (d.h. $\emptyset\neq I_1\subseteq N$, $\emptyset\neq I_2\subseteq N$, $I_1 \cap I_2 = \emptyset$).
 		Wenn $k_J=0$ für alle nichtleeren $J\subseteq N$ mit $I_1 \cap J\neq \emptyset$ und $I_2 \cap J\neq \emptyset$, dann folgt die Ungleichung~\ref{eq:condition} für $I$ aus den beiden Ungleichungen~\ref{eq:condition} für $I_1$ und $I_2$.
 	\end{lemma}
@@ -136,16 +138,10 @@
 		Die Summanden, welche sowohl auf der rechten Seite der Ungleichung~\ref{eq:condition} für $I_1$ als auch für $I_2$ vorkommen, sind genau diejenigen $k_J$, für welche $J\cap I_1\neq \emptyset$ und $J\cap I_2\neq \emptyset$ gilt. Da für diese nach Voraussetzung $k_J=0$ ist, folgt die Ungleichung~\ref{eq:condition} für $I$ deshalb aus der Summe der Ungleichung~\ref{eq:condition} für $I_1$ und $I_2$.
 	\end{proof}
 
-	Beim algorithmischen Erzeugen der Teilmengen von $N$ wird in einem Schritt zur aktuellen Teilmenge $I$ jeweils ein neues Element $j$ hinzugefügt. Falls $k_J = 0$ für alle nichtleeren $J\subseteq N$ mit $I\cap J\neq \emptyset$ und $\{1\}\cap J\neq \emptyset$  gilt, so kann dieser und alle darauf aufbauenden Schritte wegen des obigen Lemmas übersprungen werden.
-	
-	Damit kann die Anzahl der zu berücksichtigenden Ungleichungen massiv reduziert werden.
-
-	\begin{example}
-		Wenn ein Element $j$ mit keinem anderen Element in $N$ eine gemeinsame Kapazität zur Verfügung stellt (d.h. $k_J=0$ für alle $J\subseteq N$ mit $j\in J$ und $\left|J\right| > 1$ gilt), so ist dafür nur die Ungleichung~\ref{eq:condition} für $\{j\}$ relevant. Diese ist in diesem Falle besonders einfach: $b_j \leq k_{\{j\}}$.
-	\end{example}
-	
-	\begin{example}
-		Sei $N:=\{1, 2, 3\}$ und $k_{\{2, 3\}}=k_{\{1, 2, 3\}}=0$. Dann sind nur die Ungleichungen~\ref{eq:condition} für die Teilmengen ${\{1\}}$, ${\{2\}}$, ${\{3\}}$, ${\{1, 2\}}$, ${\{1, 3\}}$ und ${\{1, 2, 3\}}$, nicht jedoch für ${\{2, 3\}}$ relevant.
-	\end{example}
+	Offene Fragen:
+	\begin{itemize}
+		\item Wie genau Lemma~\ref{def:lemma_partitionen} in der Praxis eingesetzt werden kann, um effizient alle nicht notwendigen Ungleichungen zu finden ist mir noch nicht klar.
+		\item Vermutlich ist die Anzahl der relevanten Ungleichungen in vielen Anwendungsfällen auch nach dem Eliminieren der unnötigen Ungleichungen zu gross, als dass dieser Ansatz dem offensichtlicheren Ansatz - das Sicherstellen der Bedingungen in Definition~\ref{def:abdeckung_bedarf} via ein ganzzahliges lineares Programm - überlegen wäre.
+	\end{itemize}
 	
 \end{document}
