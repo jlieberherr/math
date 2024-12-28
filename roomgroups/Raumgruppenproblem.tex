@@ -42,18 +42,20 @@
 	
 	\begin{definition}[Abdeckung des Bedarfs]
 		\label{def:abdeckung_bedarf}
-		Der Bedarf $(b_i)_{i\in N}$ kann durch die Kapazität $(k_I)_{I\subset N, I\neq \emptyset}$ abgedeckt werden, falls es eine Familie $(x_I^i)_{I\subseteq  N, I\neq \emptyset, i\in I}$ von nicht-negativen ganzen Zahlen  gibt, sodass
+		Der Bedarf $(b_i)_{i\in N}$ kann durch die Kapazität $(k_I)_{I\subseteq N, I\neq \emptyset}$ abgedeckt werden, falls es eine Familie $(x_I^i)_{I\subseteq  N, I\neq \emptyset, i\in I}$ von nicht-negativen ganzen Zahlen  gibt, sodass
 		\begin{itemize}
 			\item die Gleichungen $b_i = \sum_{I\subseteq N, I\neq \emptyset, i\in I}x_I^i$ für alle $i\in N$ und
 			\item die Ungleichungen $\sum_{i\in I} x_I^i \leq k_I$ für alle nicht-leeren Teilmengen $I\subseteq N$
 		\end{itemize}
 		erfüllt sind.
 	\end{definition}
+
+	Das Finden der $(x_I^i)_{I\subseteq  N, I\neq \emptyset, i\in I}$ kann mit einem linearen ganzzahligen Programm umgesetzt werden. Je nach Anwendungsfall interessiert jedoch nur die Frage, ob überhaupt eine Lösung existiert, d.h. ob der Bedarf durch die Kapazität abgedeckt werden kann. Die Fragestellung nach der Existenz einer Lösung, kann auch ohne lineares Programm beantwortet werden. Im folgenden werden notwendige und hinreichende Bedingungen dazu angegeben.
 	
 	
 	\section{Notwendige und hinreichende Bedingungen}
 		
-	Damit der Bedarf $(b_i)_{i\in N}$ durch die Kapazität $(k_I)_{I\subset N, I\neq \emptyset}$ abgedeckt werden kann, muss für alle nichtleeren $I\subseteq N$ eine Ungleichung erfüllt sein, nämlich:
+	Damit der Bedarf $(b_i)_{i\in N}$ durch die Kapazität $(k_I)_{I\subseteq N, I\neq \emptyset}$ abgedeckt werden kann, muss für alle nichtleeren $I\subseteq N$ eine Ungleichung erfüllt sein, nämlich:
 	\begin{equation}
 			\sum_{i \in I}b_i \leq \sum_{J\subseteq N, J\cap I \neq \emptyset}k_J
 			\label{eq:condition}
@@ -130,7 +132,7 @@
 	\section{Ideen zum Vorgehen in der Praxis}
 	In der Praxis ist $k_I = 0$ für gewisse  $I\subseteq N$. Um zu prüfen, ob die Kapazität den Bedarf abdeckt, müssen deshalb nicht immer alle $\left|\powerset(N)\right| - 1 =  2^n - 1$ der Ungleichungen~\ref{eq:condition} geprüft werden. Dabei kann folgende Tatsache verwendet werden:
 	\begin{lemma}
-		\label{def:lemma_partitionen}
+		\label{lemma:lemma_partitionen}
 		Sei $I\subseteq N$ nichtleer und $I = I_1 \cup I_2$ eine Partition von $I$ (d.h. $\emptyset\neq I_1\subseteq N$, $\emptyset\neq I_2\subseteq N$, $I_1 \cap I_2 = \emptyset$).
 		Wenn $k_J=0$ für alle nichtleeren $J\subseteq N$ mit $I_1 \cap J\neq \emptyset$ und $I_2 \cap J\neq \emptyset$, dann folgt die Ungleichung~\ref{eq:condition} für $I$ aus den beiden Ungleichungen~\ref{eq:condition} für $I_1$ und $I_2$.
 	\end{lemma}
@@ -138,10 +140,14 @@
 		Die Summanden, welche sowohl auf der rechten Seite der Ungleichung~\ref{eq:condition} für $I_1$ als auch für $I_2$ vorkommen, sind genau diejenigen $k_J$, für welche $J\cap I_1\neq \emptyset$ und $J\cap I_2\neq \emptyset$ gilt. Da für diese nach Voraussetzung $k_J=0$ ist, folgt die Ungleichung~\ref{eq:condition} für $I$ deshalb aus der Summe der Ungleichung~\ref{eq:condition} für $I_1$ und $I_2$.
 	\end{proof}
 
-	Offene Fragen:
+	
+	
+	Bemerkungen:
 	\begin{itemize}
-		\item Wie genau Lemma~\ref{def:lemma_partitionen} in der Praxis eingesetzt werden kann, um effizient alle nicht notwendigen Ungleichungen zu finden ist mir noch nicht klar.
-		\item Vermutlich ist die Anzahl der relevanten Ungleichungen in vielen Anwendungsfällen auch nach dem Eliminieren der unnötigen Ungleichungen zu gross, als dass dieser Ansatz dem offensichtlicheren Ansatz - das Sicherstellen der Bedingungen in Definition~\ref{def:abdeckung_bedarf} via ein ganzzahliges lineares Programm - überlegen wäre.
+		\item Der Inhalt von Lemma~\ref{lemma:lemma_partitionen} kann wie folgt umformuliert werden: $I$, $I_1$ und $I_2$ seien wie im Lemma. Zudem sei allgemein $\mathcal{A}_L:=\{J\subseteq N \;|\; L\cap J\neq \emptyset, k_J>0\}$ für ein beliebiges $L\subseteq N$. Dann folgt die Ungleichung~\ref{eq:condition} für $I$ aus den Ungleichungen~\ref{eq:condition} für $I_1$ und $I_2$, falls $\mathcal{A}_{I_1}\cap \mathcal{A}_{I_2}=\emptyset$.
+		\item Das Finden von $I_1$ und $I_2$ mit dieser Eigenschaft wird rasch sehr aufwändig. Es ist deshalb ratsam, in einem ersten Schritt, die Menge $N$ wie folgt in unabhängige Komponenten zu zerlegen: die Elemente von $N$ seien die Knoten eines (ungerichteten) Graphen. Zwei unterschiedliche Knoten $i\in N$ und $j\in N$ sind durch eine Kante verbunden, falls ein sowohl $i$ als auch $j$ enthaltendes $L\subseteq N$ mit $k_L > 0$ existiert. Das Problem kann dann statt auf dem gesamten $N$ auf allen Zusammenhangskomponenten von $G$ betrachtet werden.
+		\item In einem Anwendungsbeispiel aus der Stundenplanung an einer Schule mit $|N|=28$ Raumgruppen und $95$ nicht-leeren Teilmengen $I\subseteq N$ mit $k_I > 0$, zerfällt $N$ in $15$ Komponenten, wovon die grösste $13$ Elemente hat. In dieser grössten Komponente können von den $2^{13} - 1=8191$ Ungleichungen~\ref{eq:condition} mit dem oben beschriebenen Verfahren innerhalb weniger Sekunden $6021$ Ungleichungen eliminiert werden, sodass $2170$ Ungleichungen übrig bleiben.
+		\item Dieses Beispiel zeigt, dass die Anzahl der Ungleichungen~\ref{eq:condition} in der Praxis auch nach Zerlegung des Problems in Teilprobleme und Elimination der unnötigen Ungleichungen noch gross bleiben kann. Je nachdem ist es also effizienter, mit Hilfe eines  wie in Definition~\ref{def:abdeckung_bedarf} beschriebenen linearen ganzzahligen Programms sicherzustellen, dass der Bedarf durch die Kapazität abgedeckt werden kann.
 	\end{itemize}
 	
 \end{document}
